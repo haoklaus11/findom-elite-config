@@ -1,0 +1,27 @@
+[
+  {
+    "id": "github-task-1",
+    "title": "Morning Worship",
+    "description": "Begin your day with 10 minutes of grateful meditation and affirmations."
+  },
+  {
+    "id": "github-task-2",
+    "title": "Weekly Tribute",
+    "description": "Complete your weekly tribute payment of $75 to demonstrate devotion."
+  },
+  {
+    "id": "github-task-3",
+    "title": "Journal Entry",
+    "description": "Write a detailed journal entry about your submission and growth."
+  },
+  {
+    "id": "github-task-4",
+    "title": "Task Completion Report",
+    "description": "Submit proof of completion for all assigned weekly tasks."
+  },
+  {
+    "id": "github-task-5",
+    "title": "Self-Care Assignment",
+    "description": "Complete your assigned self-care routine and document your experience."
+  }
+]

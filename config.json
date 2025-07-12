@@ -1,0 +1,114 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Morning Tribute",
+      "description": "Send your daily tribute to show devotion and start your day properly",
+      "xp": 20,
+      "tributeRequired": 50,
+      "difficulty": "easy",
+      "tierVisibility": ["novice", "eager", "devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 2,
+      "title": "Worship Session",
+      "description": "Spend 30 minutes in worship and meditation on your Goddess",
+      "xp": 30,
+      "tributeRequired": 0,
+      "difficulty": "medium",
+      "tierVisibility": ["eager", "devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 3,
+      "title": "Financial Sacrifice",
+      "description": "Make a significant financial offering to prove your devotion",
+      "xp": 100,
+      "tributeRequired": 500,
+      "difficulty": "hard",
+      "tierVisibility": ["devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 4,
+      "title": "Weekly Confession",
+      "description": "Confess your thoughts and failures to your Goddess",
+      "xp": 40,
+      "tributeRequired": 25,
+      "difficulty": "medium",
+      "tierVisibility": ["novice", "eager", "devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 5,
+      "title": "Elite Prove Yourself",
+      "description": "Complete the ultimate test of financial submission",
+      "xp": 200,
+      "tributeRequired": 1000,
+      "difficulty": "extreme",
+      "tierVisibility": ["elite"]
+    },
+    {
+      "id": 6,
+      "title": "Punishment Tax",
+      "description": "Pay the price for your failures and disappointments",
+      "xp": 15,
+      "tributeRequired": 200,
+      "difficulty": "hard",
+      "tierVisibility": ["novice", "eager", "devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 7,
+      "title": "Goddess Appreciation",
+      "description": "Show gratitude for your Goddess's attention and control",
+      "xp": 35,
+      "tributeRequired": 100,
+      "difficulty": "easy",
+      "tierVisibility": ["eager", "devoted", "sacrificial", "elite"]
+    }
+  ],
+  "tiers": {
+    "novice": {
+      "minXP": 0,
+      "maxXP": 149,
+      "multiplier": 1.0,
+      "name": "Financial Novice"
+    },
+    "eager": {
+      "minXP": 150,
+      "maxXP": 399,
+      "multiplier": 1.2,
+      "name": "Eager Pig"
+    },
+    "devoted": {
+      "minXP": 400,
+      "maxXP": 899,
+      "multiplier": 1.5,
+      "name": "Devoted Slave"
+    },
+    "sacrificial": {
+      "minXP": 900,
+      "maxXP": 1999,
+      "multiplier": 1.8,
+      "name": "Sacrificial Pig"
+    },
+    "elite": {
+      "minXP": 2000,
+      "maxXP": 999999,
+      "multiplier": 2.0,
+      "name": "Elite Slave"
+    }
+  },
+  "goddessMessage": "Welcome to your financial servitude, pig. Today you will prove your devotion through complete submission. Every tribute brings you closer to worthiness.",
+  "emojiMap": {
+    "novice": "🐷",
+    "eager": "🐽",
+    "devoted": "💰",
+    "sacrificial": "👑",
+    "elite": "💎"
+  },
+  "webhookURL": "",
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-07-12T00:00:00.000Z",
+    "author": "Your Goddess",
+    "description": "Remote configuration for Findom Elite Tracker"
+  }
+}

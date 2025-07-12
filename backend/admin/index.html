@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KFD - Goddess Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: #FFD700;
+        }
+
+        .stat-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .dashboard-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #FFD700;
+        }
+
+        .refresh-btn {
+            background: #FF6B6B;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: #FF5252;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .tab.active {
+            opacity: 1;
+            border-bottom: 2px solid #FFD700;
+        }
+
+        .tab:hover {
+            opacity: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-table th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #FFA726;
+            color: #000;
+        }
+
+        .status-approved {
+            background: #4CAF50;
+            color: #fff;
+        }
+
+        .status-rejected {
+            background: #F44336;
+            color: #fff;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .review-btn {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .approve-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .reject-btn {
+            background: #F44336;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.7;
+        }
+
+        .error {
+            background: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #F44336;
+        }
+
+        .success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #4CAF50;
+        }
+
+        .proof-link {
+            color: #81C784;
+            text-decoration: none;
+        }
+
+        .proof-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.7;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-table {
+                font-size: 0.9rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👑 Goddess Admin Dashboard</h1>
+            <p>Monitor and manage your devoted submissives</p>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <h3 id="totalSubs">-</h3>
+                <p>Total Subs</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="activeSubs">-</h3>
+                <p>Active Subs</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalSubmissions">-</h3>
+                <p>Total Submissions</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="pendingSubmissions">-</h3>
+                <p>Pending Review</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="todaySubmissions">-</h3>
+                <p>Today's Tasks</p>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <div class="section-header">
+                <h2 class="section-title">Management Dashboard</h2>
+                <button class="refresh-btn" onclick="refreshData()">🔄 Refresh</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('submissions')">📋 Submissions</button>
+                <button class="tab" onclick="switchTab('subs')">👥 Submissives</button>
+            </div>
+
+            <div id="submissions-tab" class="tab-content active">
+                <div id="submissionsLoading" class="loading">Loading submissions...</div>
+                <div id="submissionsError" class="error" style="display: none;"></div>
+                <div id="submissionsContent"></div>
+            </div>
+
+            <div id="subs-tab" class="tab-content">
+                <div id="subsLoading" class="loading">Loading submissives...</div>
+                <div id="subsError" class="error" style="display: none;"></div>
+                <div id="subsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE = window.location.origin + '/api';
+        const ADMIN_KEY = new URLSearchParams(window.location.search).get('adminKey') || 'goddess-admin-2025';
+        
+        // State
+        let currentTab = 'submissions';
+        let submissions = [];
+        let subs = [];
+        let stats = {};
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Admin Dashboard loaded');
+            refreshData();
+        });
+
+        // API Helper
+        async function apiRequest(endpoint, options = {}) {
+            const url = `${API_BASE}${endpoint}`;
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Admin-Key': ADMIN_KEY
+                },
+                ...options
+            };
+
+            try {
+                const response = await fetch(url, config);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'API request failed');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // Refresh all data
+        async function refreshData() {
+            console.log('🔄 Refreshing dashboard data...');
+            
+            try {
+                // Load stats
+                await loadStats();
+                
+                // Load data based on current tab
+                if (currentTab === 'submissions') {
+                    await loadSubmissions();
+                } else {
+                    await loadSubs();
+                }
+                
+                console.log('✅ Data refreshed successfully');
+            } catch (error) {
+                console.error('❌ Error refreshing data:', error);
+            }
+        }
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await apiRequest('/stats');
+                stats = response.stats;
+                
+                document.getElementById('totalSubs').textContent = stats.totalSubs;
+                document.getElementById('activeSubs').textContent = stats.activeSubs;
+                document.getElementById('totalSubmissions').textContent = stats.totalSubmissions;
+                document.getElementById('pendingSubmissions').textContent = stats.pendingSubmissions;
+                document.getElementById('todaySubmissions').textContent = stats.todaySubmissions;
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Load submissions
+        async function loadSubmissions() {
+            const loadingEl = document.getElementById('submissionsLoading');
+            const errorEl = document.getElementById('submissionsError');
+            const contentEl = document.getElementById('submissionsContent');
+            
+            loadingEl.style.display = 'block';
+            errorEl.style.display = 'none';
+            contentEl.innerHTML = '';
+            
+            try {
+                const response = await apiRequest('/submissions');
+                submissions = response.submissions;
+                
+                loadingEl.style.display = 'none';
+                renderSubmissions();
+                
+            } catch (error) {
+                loadingEl.style.display = 'none';
+                errorEl.textContent = 'Failed to load submissions: ' + error.message;
+                errorEl.style.display = 'block';
+            }
+        }
+
+        // Load subs
+        async function loadSubs() {
+            const loadingEl = document.getElementById('subsLoading');
+            const errorEl = document.getElementById('subsError');
+            const contentEl = document.getElementById('subsContent');
+            
+            loadingEl.style.display = 'block';
+            errorEl.style.display = 'none';
+            contentEl.innerHTML = '';
+            
+            try {
+                const response = await apiRequest('/subs');
+                subs = response.subs;
+                
+                loadingEl.style.display = 'none';
+                renderSubs();
+                
+            } catch (error) {
+                loadingEl.style.display = 'none';
+                errorEl.textContent = 'Failed to load subs: ' + error.message;
+                errorEl.style.display = 'block';
+            }
+        }
+
+        // Render submissions table
+        function renderSubmissions() {
+            const contentEl = document.getElementById('submissionsContent');
+            
+            if (submissions.length === 0) {
+                contentEl.innerHTML = '<div class="empty-state">No submissions yet.</div>';
+                return;
+            }
+            
+            const tableHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Sub</th>
+                            <th>Task</th>
+                            <th>Submitted</th>
+                            <th>Proof</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${submissions.map(sub => `
+                            <tr>
+                                <td><strong>${sub.subAlias}</strong></td>
+                                <td>${sub.taskId}</td>
+                                <td class="timestamp">${formatDate(sub.timestamp)}</td>
+                                <td>
+                                    ${sub.proofUrl ? `<a href="${sub.proofUrl}" target="_blank" class="proof-link">View Proof</a>` : 'None'}
+                                </td>
+                                <td>
+                                    <span class="status-badge status-${sub.status}">${sub.status}</span>
+                                </td>
+                                <td>
+                                    <div class="review-actions">
+                                        <button class="review-btn approve-btn" onclick="reviewSubmission('${sub.submissionId}', 'approved')">
+                                            ✅ Approve
+                                        </button>
+                                        <button class="review-btn reject-btn" onclick="reviewSubmission('${sub.submissionId}', 'rejected')">
+                                            ❌ Reject
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            contentEl.innerHTML = tableHTML;
+        }
+
+        // Render subs table
+        function renderSubs() {
+            const contentEl = document.getElementById('subsContent');
+            
+            if (subs.length === 0) {
+                contentEl.innerHTML = '<div class="empty-state">No submissives registered yet.</div>';
+                return;
+            }
+            
+            const tableHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Alias</th>
+                            <th>Registered</th>
+                            <th>Last Active</th>
+                            <th>Total Tasks</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${subs.map(sub => `
+                            <tr>
+                                <td><strong>${sub.alias}</strong></td>
+                                <td class="timestamp">${formatDate(sub.registeredAt)}</td>
+                                <td class="timestamp">${formatDate(sub.lastActive)}</td>
+                                <td>${sub.totalTasks || 0}</td>
+                                <td>
+                                    <span class="status-badge status-${sub.status === 'active' ? 'approved' : 'pending'}">${sub.status}</span>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            contentEl.innerHTML = tableHTML;
+        }
+
+        // Review submission
+        async function reviewSubmission(submissionId, status) {
+            try {
+                const response = await apiRequest(`/submissions/${submissionId}/review`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({ status })
+                });
+                
+                console.log(`✅ Submission ${submissionId} marked as ${status}`);
+                
+                // Show success message
+                const successEl = document.createElement('div');
+                successEl.className = 'success';
+                successEl.textContent = `Submission ${status} successfully!`;
+                document.querySelector('.dashboard-section').prepend(successEl);
+                
+                setTimeout(() => successEl.remove(), 3000);
+                
+                // Refresh data
+                await loadStats();
+                await loadSubmissions();
+                
+            } catch (error) {
+                console.error('Error reviewing submission:', error);
+                
+                // Show error message
+                const errorEl = document.createElement('div');
+                errorEl.className = 'error';
+                errorEl.textContent = 'Failed to review submission: ' + error.message;
+                document.querySelector('.dashboard-section').prepend(errorEl);
+                
+                setTimeout(() => errorEl.remove(), 5000);
+            }
+        }
+
+        // Switch tabs
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Load data for current tab
+            if (tabName === 'submissions') {
+                loadSubmissions();
+            } else {
+                loadSubs();
+            }
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString();
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(refreshData, 30000);
+    </script>
+</body>
+</html>

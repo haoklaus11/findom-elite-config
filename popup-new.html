@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Findom Elite Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <h1>Findom Elite Tracker</h1>
+            <p class="subtitle">Submit to your financial servitude</p>
+        </div>
+
+        <!-- User Info Section (Initial Setup) -->
+        <div id="user-info" class="user-info glassmorphic hidden">
+            <h2>Setup Your Profile</h2>
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" class="user-input" placeholder="Enter your slave name" required>
+            </div>
+            <div class="input-group">
+                <label for="country">Country:</label>
+                <input type="text" id="country" class="user-input" placeholder="Enter your country" required>
+            </div>
+            <div class="button-group">
+                <button id="save-info" class="primary-btn">Save Profile</button>
+            </div>
+        </div>
+
+        <!-- Main Interface -->
+        <div id="main-interface" class="hidden">
+            <!-- Profile Panel -->
+            <div class="profile-panel glassmorphic">
+                <div class="profile-header">
+                    <div class="avatar-section">
+                        <div class="avatar-container">
+                            <div class="user-avatar">👤</div>
+                            <div class="country-flag">🏳️</div>
+                        </div>
+                        <div class="user-info-display">
+                            <h3 id="display-username">Username</h3>
+                            <div class="tier-badge">
+                                <span>🐷</span> Financial Novice
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-info">
+                        <div class="level-display">
+                            <span class="level-label">LEVEL</span>
+                            <span class="level-number">1</span>
+                        </div>
+                        <div class="xp-display">0 XP</div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill">
+                            <div class="progress-shine"></div>
+                        </div>
+                    </div>
+                    <div class="progress-text">0 / 100 XP</div>
+                    <div class="next-tier-info">100 XP to next tier</div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-icon">💰</span>
+                        <div class="stat-value" id="tribute-total">$0</div>
+                        <div class="stat-label">Total Tribute</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">📋</span>
+                        <div class="stat-value" id="tasks-completed">0</div>
+                        <div class="stat-label">Tasks Done</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <div class="stat-value" id="current-streak">0</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">⭐</span>
+                        <div class="stat-value" id="xp-total">0</div>
+                        <div class="stat-label">Total XP</div>
+                    </div>
+                </div>
+
+                <!-- 5-Day Streak Tracker -->
+                <div class="streak-tracker">
+                    <h4>5-Day Streak</h4>
+                    <div class="streak-days">
+                        <div class="streak-day">
+                            <div class="day-circle">1</div>
+                            <div class="day-label">Mon</div>
+                        </div>
+                        <div class="streak-day">
+                            <div class="day-circle">2</div>
+                            <div class="day-label">Tue</div>
+                        </div>
+                        <div class="streak-day">
+                            <div class="day-circle">3</div>
+                            <div class="day-label">Wed</div>
+                        </div>
+                        <div class="streak-day">
+                            <div class="day-circle">4</div>
+                            <div class="day-label">Thu</div>
+                        </div>
+                        <div class="streak-day">
+                            <div class="day-circle">5</div>
+                            <div class="day-label">Fri</div>
+                        </div>
+                    </div>
+                    <div class="streak-bonus">
+                        <div class="bonus-text">5-Day Bonus:</div>
+                        <div class="bonus-value">+50% XP</div>
+                    </div>
+                </div>
+
+                <!-- Goddess Message -->
+                <div class="goddess-message">
+                    Welcome to your financial servitude, pig. Today you will prove your devotion.
+                </div>
+            </div>
+
+            <!-- Task Section -->
+            <div class="task-section">
+                <div class="task-header">
+                    <h2>Available Tasks</h2>
+                    <div class="header-buttons">
+                        <button id="sync-btn" class="sync-btn">🔄 Sync</button>
+                        <button id="settings-btn" class="settings-btn">⚙️ Settings</button>
+                    </div>
+                </div>
+                
+                <div id="sync-status" class="sync-status"></div>
+                
+                <div id="task-list" class="task-list">
+                    <!-- Tasks will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="status" class="status hidden"></div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="settings-modal hidden">
+            <div class="modal-content">
+                <h3>Settings</h3>
+                <div class="settings-group">
+                    <label>
+                        <input type="radio" name="theme" value="dark" checked>
+                        Dark Theme
+                    </label>
+                    <label>
+                        <input type="radio" name="theme" value="light">
+                        Light Theme
+                    </label>
+                </div>
+                <div class="settings-group">
+                    <label for="config-url">Configuration URL:</label>
+                    <input type="url" id="config-url" class="settings-input" 
+                           placeholder="https://your-domain.com/config.json">
+                </div>
+                <div class="settings-group">
+                    <label for="webhook-url">Discord Webhook URL:</label>
+                    <input type="url" id="webhook-url" class="settings-input" 
+                           placeholder="https://discord.com/api/webhooks/...">
+                </div>
+                <div class="modal-buttons">
+                    <button id="save-settings" class="save-btn">Save</button>
+                    <button id="cancel-settings" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup-new.js"></script>
+</body>
+</html>

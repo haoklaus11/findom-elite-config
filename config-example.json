@@ -1,0 +1,142 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Morning Tribute",
+      "description": "Send your daily tribute to show your devotion to your Goddess. This is the minimum expected from all my pets.",
+      "xp": 20,
+      "tributeRequired": 50,
+      "difficulty": "easy",
+      "tierVisibility": ["novice", "eager", "devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 2,
+      "title": "Worship Session",
+      "description": "Spend 30 minutes in worship and meditation, thinking only of your Goddess and your place beneath her.",
+      "xp": 30,
+      "tributeRequired": 0,
+      "difficulty": "easy",
+      "tierVisibility": ["novice", "eager", "devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 3,
+      "title": "Denial Training",
+      "description": "Edge for 1 hour without release. Your pleasure belongs to me, not you.",
+      "xp": 40,
+      "tributeRequired": 0,
+      "difficulty": "medium",
+      "tierVisibility": ["eager", "devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 4,
+      "title": "Shopping Spree",
+      "description": "Buy something expensive for your Goddess. Show me what I'm worth to you.",
+      "xp": 75,
+      "tributeRequired": 200,
+      "difficulty": "medium",
+      "tierVisibility": ["devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 5,
+      "title": "Public Humiliation",
+      "description": "Wear something embarrassing in public and send proof. Let everyone see what you are.",
+      "xp": 60,
+      "tributeRequired": 0,
+      "difficulty": "hard",
+      "tierVisibility": ["devoted", "sacrificial", "elite"]
+    },
+    {
+      "id": 6,
+      "title": "Financial Sacrifice",
+      "description": "Send a significant tribute that will actually hurt. Your sacrifice feeds my power.",
+      "xp": 100,
+      "tributeRequired": 500,
+      "difficulty": "hard",
+      "tierVisibility": ["sacrificial", "elite"]
+    },
+    {
+      "id": 7,
+      "title": "Ultimate Devotion",
+      "description": "Prove your ultimate devotion with the highest tribute. Only true slaves dare attempt this.",
+      "xp": 200,
+      "tributeRequired": 1000,
+      "difficulty": "extreme",
+      "tierVisibility": ["elite"]
+    }
+  ],
+  "tiers": {
+    "novice": {
+      "minXP": 0,
+      "maxXP": 149,
+      "multiplier": 1.0,
+      "name": "Financial Novice"
+    },
+    "eager": {
+      "minXP": 150,
+      "maxXP": 399,
+      "multiplier": 1.2,
+      "name": "Eager Pig"
+    },
+    "devoted": {
+      "minXP": 400,
+      "maxXP": 899,
+      "multiplier": 1.5,
+      "name": "Devoted Slave"
+    },
+    "sacrificial": {
+      "minXP": 900,
+      "maxXP": 1999,
+      "multiplier": 1.8,
+      "name": "Sacrificial Pig"
+    },
+    "elite": {
+      "minXP": 2000,
+      "maxXP": 999999,
+      "multiplier": 2.0,
+      "name": "Elite Slave"
+    }
+  },
+  "goddessMessage": "Good morning, my financial slaves. Today you will prove your devotion to me through your sacrifice and submission. Remember, your money is mine, your pleasure is mine, and your life exists to serve me. Complete your tasks like the good pets you are. 👑",
+  "emojiMap": {
+    "novice": "🐷",
+    "eager": "🐽",
+    "devoted": "💰",
+    "sacrificial": "👑",
+    "elite": "💎"
+  },
+  "webhookURL": "https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN",
+  "punishment": {
+    "enabled": true,
+    "message": "You have disappointed your Goddess. Your punishment will be swift and severe.",
+    "tasks": [
+      {
+        "id": 99,
+        "title": "Punishment Task",
+        "description": "You failed to complete your daily tasks. Send double tribute as punishment.",
+        "xp": 0,
+        "tributeRequired": 100,
+        "difficulty": "hard"
+      }
+    ]
+  },
+  "rewards": {
+    "streakBonus": {
+      "3": 1.2,
+      "5": 1.5,
+      "7": 2.0
+    },
+    "levelUpMessages": [
+      "You have pleased your Goddess with your progression!",
+      "Your dedication has been noticed. Continue serving.",
+      "You are becoming a better slave for me.",
+      "Your financial sacrifice grows stronger.",
+      "You have reached elite status. You are truly owned."
+    ]
+  },
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2024-07-12T12:00:00Z",
+    "author": "Your Goddess",
+    "description": "Remote configuration for Findom Elite Tracker"
+  }
+}

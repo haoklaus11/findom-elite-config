@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Webhook Proof Submission</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="text"], input[type="url"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            box-sizing: border-box;
+        }
+        
+        input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+        }
+        
+        .status.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 15px 0;
+            color: rgba(255,255,255,0.7);
+        }
+    </style>
+</head>
+<body>
+    <h2>Submit Task Proof</h2>
+    
+    <form id="proofForm">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter your username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="taskName">Task Name:</label>
+            <input type="text" id="taskName" placeholder="Enter task name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="proofFile">Upload Proof Image:</label>
+            <input type="file" id="proofFile" accept="image/*">
+        </div>
+        
+        <div class="divider">OR</div>
+        
+        <div class="form-group">
+            <label for="proofUrl">Proof Image URL:</label>
+            <input type="url" id="proofUrl" placeholder="https://example.com/image.jpg">
+        </div>
+        
+        <button type="submit" id="submitBtn">Submit Proof</button>
+    </form>
+    
+    <div id="status" class="status" style="display: none;"></div>
+    
+    <script>
+        // Discord webhook URL - replace with your actual webhook URL
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN';
+        
+        document.getElementById('proofForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const taskName = document.getElementById('taskName').value;
+            const proofFile = document.getElementById('proofFile').files[0];
+            const proofUrl = document.getElementById('proofUrl').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const statusDiv = document.getElementById('status');
+            
+            // Validation
+            if (!username || !taskName) {
+                showStatus('error', 'Please fill in username and task name');
+                return;
+            }
+            
+            if (!proofFile && !proofUrl) {
+                showStatus('error', 'Please provide either a file or image URL');
+                return;
+            }
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            try {
+                let success = false;
+                
+                if (proofFile) {
+                    // Send with file attachment
+                    success = await sendDiscordWebhookWithFile(username, taskName, proofFile, proofUrl);
+                } else {
+                    // Send with just URL
+                    success = await sendDiscordWebhookText(username, taskName, proofUrl);
+                }
+                
+                if (success) {
+                    showStatus('success', 'Proof submitted successfully to Discord!');
+                    document.getElementById('proofForm').reset();
+                } else {
+                    showStatus('error', 'Failed to submit proof to Discord');
+                }
+                
+            } catch (error) {
+                showStatus('error', 'Error: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Proof';
+            }
+        });
+        
+        // Function to send Discord webhook with file
+        async function sendDiscordWebhookWithFile(username, taskName, file, imageUrl = null) {
+            try {
+                const formData = new FormData();
+                
+                // Basic message
+                const messageContent = `**New Task Submission**\nUsername: ${username}\nTask: ${taskName}`;
+                formData.append('content', messageContent);
+                
+                // Add file
+                if (file) {
+                    formData.append('file', file, file.name);
+                }
+                
+                // Add embed with image URL if provided
+                if (imageUrl) {
+                    const embedData = {
+                        embeds: [{
+                            title: "Task Completed",
+                            fields: [
+                                { name: "👤 Username", value: username, inline: true },
+                                { name: "📋 Task", value: taskName, inline: true },
+                                { name: "⏰ Completed", value: new Date().toLocaleString(), inline: true }
+                            ],
+                            color: 0x4CAF50,
+                            timestamp: new Date().toISOString()
+                        }]
+                    };
+                    
+                    if (imageUrl) {
+                        embedData.embeds[0].fields.push({
+                            name: "🔗 Additional Image",
+                            value: imageUrl,
+                            inline: false
+                        });
+                    }
+                    
+                    formData.append('payload_json', JSON.stringify(embedData));
+                }
+                
+                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                return response.ok;
+                
+            } catch (error) {
+                console.error('Discord webhook error:', error);
+                return false;
+            }
+        }
+        
+        // Function to send Discord webhook with just text/embed
+        async function sendDiscordWebhookText(username, taskName, imageUrl = null) {
+            try {
+                const payload = {
+                    content: `**New Task Submission**\nUsername: ${username}\nTask: ${taskName}`,
+                    embeds: [{
+                        title: "Task Completed",
+                        fields: [
+                            { name: "👤 Username", value: username, inline: true },
+                            { name: "📋 Task", value: taskName, inline: true },
+                            { name: "⏰ Completed", value: new Date().toLocaleString(), inline: true }
+                        ],
+                        color: 0x4CAF50,
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+                
+                if (imageUrl) {
+                    payload.embeds[0].fields.push({
+                        name: "🔗 Proof Image",
+                        value: imageUrl,
+                        inline: false
+                    });
+                    payload.embeds[0].image = { url: imageUrl };
+                }
+                
+                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                return response.ok;
+                
+            } catch (error) {
+                console.error('Discord webhook error:', error);
+                return false;
+            }
+        }
+        
+        // Function to show status messages
+        function showStatus(type, message) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        // Auto-fill username if stored in Chrome storage (for extension)
+        if (typeof chrome !== 'undefined' && chrome.storage) {
+            chrome.storage.local.get(['subAlias'], function(result) {
+                if (result.subAlias) {
+                    document.getElementById('username').value = result.subAlias;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Findom Elite Tracker",
+  "version": "1.0.0",
+  "description": "A gamified Chrome extension for financial domination task tracking and submission",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://raw.githubusercontent.com/*",
+    "https://discord.com/*",
+    "https://discordapp.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Findom Elite Tracker",
+    "default_icon": {
+      "16": "images/icon16.png",
+      "32": "images/icon32.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "daily-worship",
+    "title": "Daily Morning Worship",
+    "description": "Begin your day with 10 minutes of grateful meditation and affirmations to your Goddess."
+  },
+  {
+    "id": "weekly-tribute",
+    "title": "Weekly Tribute Payment",
+    "description": "Complete your weekly tribute payment of $75 to demonstrate your devotion and obedience."
+  },
+  {
+    "id": "journal-submission",
+    "title": "Daily Journal Entry",
+    "description": "Write a detailed journal entry about your submission, growth, and gratitude."
+  },
+  {
+    "id": "task-completion-report",
+    "title": "Task Completion Report",
+    "description": "Submit proof of completion for all assigned weekly tasks with photos or receipts."
+  },
+  {
+    "id": "self-care-routine",
+    "title": "Self-Care Assignment",
+    "description": "Complete your assigned self-care routine and document your experience with reflection."
+  },
+  {
+    "id": "obedience-training",
+    "title": "Obedience Training Session",
+    "description": "Complete 30 minutes of structured obedience training exercises and mindfulness."
+  },
+  {
+    "id": "financial-review",
+    "title": "Financial Planning Review",
+    "description": "Review your budget and plan for upcoming tribute goals and financial commitments."
+  },
+  {
+    "id": "gratitude-practice",
+    "title": "Gratitude Practice",
+    "description": "Write 5 things you're grateful for regarding your dynamic and personal growth."
+  }
+]

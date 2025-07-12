@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "KFD - Findom Task Tracker",
+  "version": "1.0",
+  "description": "A basic task tracker for the findom lifestyle.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://raw.githubusercontent.com/*",
+    "https://api.telegram.org/*",
+    "https://discord.com/*",
+    "https://discordapp.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
