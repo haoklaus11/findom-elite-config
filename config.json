@@ -104,10 +104,10 @@
     "sacrificial": "👑",
     "elite": "💎"
   },
-  "webhookURL": "",
+  "webhookURL": "https://discord.com/api/webhooks/1393583751921012798/My8s76OqTZacnnmopgLtF3-ulTaI2-iinGSvAZGer8guuCNCz-K7S_tzi4Sil65ZmStn",
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2025-07-12T00:00:00.000Z",
+    "lastUpdated": "2025-07-12T15:30:00.000Z",
     "author": "Your Goddess",
     "description": "Remote configuration for Findom Elite Tracker"
   }
