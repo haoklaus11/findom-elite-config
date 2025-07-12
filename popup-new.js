@@ -1,6 +1,6 @@
 // Popup.js - Findom Elite Tracker Chrome Extension
-// Configuration URL - Update this to your live JSON config file
-const CONFIG_URL = 'https://raw.githubusercontent.com/YOUR-USERNAME/findom-config/main/config.json';
+// Configuration URL - Live JSON config file hosted on GitHub
+const CONFIG_URL = 'https://raw.githubusercontent.com/haoklaus11/findom-elite-config/main/config.json';
 const CONFIG_CACHE_KEY = 'findom_config';
 const USER_DATA_KEY = 'findom_user_data';
 const LAST_FETCH_KEY = 'last_config_fetch';
